@@ -2,7 +2,7 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
-
+const imgContainer = document.querySelector(".images")
 ///////////////////////////////////////
 
 // class Map {
@@ -66,4 +66,32 @@ const getCountry = function (country) {
         })
 }
 
+const wait = function (seconds) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, seconds * 1000);
+    });
+  };
+
+wait(5).then(() => console.log("logged after 5 seconds"))
+
 btn.addEventListener("click", getCountry.bind(this, "China"))
+
+navigator.geolocation.getCurrentPosition(location => {
+    const {latitude, longitude} = location.coords;
+    getCoords(latitude, longitude);
+})
+
+const getCoords = async function(lat, long) {
+    const coords = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json`);
+    const data = await coords.json()
+    console.log(coords);
+    console.log(data);
+} 
+getCoords();
+console.log("test started async");
+
+// const getImage = function(imgUrl) {
+//     return new Promise(function(resolve, reject) {
+        
+//     })
+// } 
